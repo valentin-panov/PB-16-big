@@ -1,3 +1,5 @@
+"use strict";
+
 let players = ['x', 'o'];
 let playerName = ['Игрок X', 'Игрок 0'];
 let activePlayer = 0;
@@ -8,25 +10,14 @@ let winSequence = 3;
 function startGame () {
   // "вызывается без параметров при открытии или перезапуске игры. В ней нужно создать поле игры и выбрать активного игрока"
 
-  newBoard.length = 1; // обнуляем длину массива, чтобы доска рисовалась правильно при выборе меньших полей на кнопках ресета
+  newBoard.length = 0; // обнуляем длину массива, чтобы доска рисовалась правильно при выборе меньших полей на кнопках ресета
 
   //заполняем переменные игры
-  boardSize = prompt('Новая игра крестики-нолики. Введите размер доски:', boardSize);
-  if (!boardSize) {
-    boardSize = 4;
-  }
-  playerName[0] = prompt('Введите имя первого игрока:', playerName[0]);
-  if (!playerName[0]) {
-    playerName[0] = 'Игрок X';
-  }
-  playerName[1] = prompt('Введите имя второго игрока:', playerName[1]);
-  if (!playerName[1]) {
-    playerName[1] = 'Игрок 0';
-  }
-  winSequence = prompt('Выигрышная серия:', winSequence);
-  if (!winSequence) {
-    winSequence = 3;
-  }
+  // boardSize = prompt('Новая игра крестики-нолики. Введите размер доски:', boardSize = 4);
+  // playerName[0] = prompt('Введите имя первого игрока:', playerName[0] = 'Игрок X');
+  // playerName[1] = prompt('Введите имя второго игрока:', playerName[1] = 'Игрок 0');
+  // winSequence = prompt('Выигрышная серия:', winSequence = 3);
+
   winSequence = parseInt(winSequence, 10); // боремся к конкатенацией и стрингованием
   
   // набиваем массив доски
@@ -41,9 +32,7 @@ function startGame () {
   renderBoard(newBoard);
 
   // вносим случайность в выбор первого игрока
-  if (Math.floor(Math.random()*10) > 5) { 
-    activePlayer = 1;
-  }
+  if (Math.floor(Math.random()*10) > 5) activePlayer = 1;
   alert(`Первым ходит ${playerName[activePlayer]}`);
 }
 
@@ -71,35 +60,27 @@ function click (clickRow, clickCol) {
   }
 }
 
+
 function checkWin(whoIsChecking) {
-  let checkArray = []; //объявляем временный массив, который будем заполнять и проверять
-  
   //проверяем горизонтали
-  checkArray.length = 0; //нулим проверочный массив
-  for (let i = 0; i < boardSize; i++) {
+  for (let i = 0, checkArray = []; i < boardSize; i++) {
     checkArray = newBoard[i]; //заполняем проверочный массив из горизонталей
-    if (checkArraySearch(checkArray, whoIsChecking)) { //проверяем полученный массив
-      return true; 
-    }
+    if (checkArraySearch(checkArray, whoIsChecking)) return true; //проверяем полученный массив
   }
 
+  debugger;
+
   //проверяем вертикали
-  checkArray.length = 0; //нулим проверочный массив
-  for (let i = 0; i < boardSize; i++) {
+  for (let i = 0, checkArray = []; i < boardSize; i++) {
     for (let j = 0; j < boardSize; j++) {
       checkArray[j] = newBoard[j][i]; // заполняем проверочный массив данными из вертикалей
-//      console.log(`j=${j} i= ${i} board ${newBoard[j][i]}`); //не понимаю, откуда в ячейке end-0 появляется символ из ячейки 0-0
     }
-    if (checkArraySearch(checkArray, whoIsChecking)) { //проверяем полученный массив
-      return true;
-    }
-    console.log(newBoard);
+    if (checkArraySearch(checkArray, whoIsChecking)) return true; //проверяем полученный массив
   }
 
   //проверяем диагонали
-  checkArray.length = 0; //нулим проверочный массив
 
-  for (let i = 0; i < boardSize; i++) {
+  for (let i = 0, checkArray = []; i < boardSize; i++) {
     //checkArray = newBoard[i][i];
   }
 
@@ -111,8 +92,12 @@ function checkWin(whoIsChecking) {
   return false;
 }
 
+
 function checkArraySearch(checkArray, whoIsChecking) {
   // объявляем символы активного игрока и оппонента
+
+  debugger;
+
   let checkSymbolActive = players[0];
   let checkSymbolOpponent = players[1];
   if (whoIsChecking == '1') {
