@@ -13,10 +13,10 @@ function startGame () {
   newBoard.length = 0; // обнуляем длину массива, чтобы доска рисовалась правильно при выборе меньших полей на кнопках ресета
 
   //заполняем переменные игры
-  // boardSize = prompt('Новая игра крестики-нолики. Введите размер доски:', boardSize = 4);
-  // playerName[0] = prompt('Введите имя первого игрока:', playerName[0] = 'Игрок X');
-  // playerName[1] = prompt('Введите имя второго игрока:', playerName[1] = 'Игрок 0');
-  // winSequence = prompt('Выигрышная серия:', winSequence = 3);
+  boardSize = prompt('Новая игра крестики-нолики. Введите размер доски:', boardSize = 4);
+  playerName[0] = prompt('Введите имя первого игрока:', playerName[0] = 'Игрок X');
+  playerName[1] = prompt('Введите имя второго игрока:', playerName[1] = 'Игрок 0');
+  winSequence = prompt('Выигрышная серия:', winSequence = 3);
 
   winSequence = parseInt(winSequence, 10); // боремся к конкатенацией и стрингованием
   
@@ -68,8 +68,6 @@ function checkWin(whoIsChecking) {
     if (checkArraySearch(checkArray, whoIsChecking)) return true; //проверяем полученный массив
   }
 
-  debugger;
-
   //проверяем вертикали
   for (let i = 0, checkArray = []; i < boardSize; i++) {
     for (let j = 0; j < boardSize; j++) {
@@ -78,9 +76,10 @@ function checkWin(whoIsChecking) {
     if (checkArraySearch(checkArray, whoIsChecking)) return true; //проверяем полученный массив
   }
 
+  debugger;
   //проверяем диагонали
 
-  for (let i = 0, checkArray = []; i < boardSize; i++) {
+  for (let i = 0, j = boardSize - 1, checkArray = []; i < boardSize; i++, j--) {
     //checkArray = newBoard[i][i];
   }
 
@@ -95,9 +94,6 @@ function checkWin(whoIsChecking) {
 
 function checkArraySearch(checkArray, whoIsChecking) {
   // объявляем символы активного игрока и оппонента
-
-  debugger;
-
   let checkSymbolActive = players[0];
   let checkSymbolOpponent = players[1];
   if (whoIsChecking == '1') {
