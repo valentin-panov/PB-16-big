@@ -14,10 +14,23 @@ function startGame () {
 
   //заполняем переменные игры
 
-  boardSize = prompt('Новая игра крестики-нолики. Введите размер доски:', boardSize = 4);
-  playerName[0] = prompt('Введите имя первого игрока:', playerName[0] = 'Игрок X');
-  playerName[1] = prompt('Введите имя второго игрока:', playerName[1] = 'Игрок 0');
-  winSequence = prompt('Выигрышная серия:', winSequence = 3);
+//заполняем переменные игры
+   boardSize = prompt('Новая игра гомоку (крестики-нолики). Введите размер доски:', boardSize);
+   if (!boardSize) {
+     boardSize = 4;
+   }
+   playerName[0] = prompt('Введите имя первого игрока:', playerName[0]);
+   if (!playerName[0]) {
+     playerName[0] = 'Игрок X';
+   }
+   playerName[1] = prompt('Введите имя второго игрока:', playerName[1]);
+   if (!playerName[1]) {
+     playerName[1] = 'Игрок 0';
+   }
+   winSequence = prompt('Выигрышная серия:', winSequence);
+   if (!winSequence) {
+     winSequence = 3;
+   }
 
   winSequence = parseInt(winSequence, 10); // боремся к конкатенацией и стрингованием
   
