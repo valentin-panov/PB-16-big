@@ -13,6 +13,7 @@ function startGame () {
   newBoard.length = 0; // обнуляем длину массива, чтобы доска рисовалась правильно при выборе меньших полей на кнопках ресета
 
   //заполняем переменные игры
+
   boardSize = prompt('Новая игра крестики-нолики. Введите размер доски:', boardSize = 4);
   playerName[0] = prompt('Введите имя первого игрока:', playerName[0] = 'Игрок X');
   playerName[1] = prompt('Введите имя второго игрока:', playerName[1] = 'Игрок 0');
@@ -62,11 +63,11 @@ function click (clickRow, clickCol) {
 
 
 function checkWin(whoIsChecking) {
+
   //проверяем горизонтали
   for (let i = 0, checkArray = []; i < boardSize; i++) {
     checkArray = newBoard[i]; //заполняем проверочный массив из горизонталей
     if (checkArraySearch(checkArray, whoIsChecking)) return true; //проверяем полученный массив
-    checkArray.length = 0;
   }
 
   //проверяем вертикали
@@ -75,7 +76,6 @@ function checkWin(whoIsChecking) {
       checkArray[j] = newBoard[j][i]; // заполняем проверочный массив данными из вертикалей
     }
     if (checkArraySearch(checkArray, whoIsChecking)) return true; //проверяем полученный массив
-    checkArray.length = 0;
   }
 
 
@@ -87,13 +87,21 @@ function checkWin(whoIsChecking) {
       checkArray[j] = newBoard[j][k];
     }
     if (checkArraySearch(checkArray, whoIsChecking)) return true; //проверяем полученный массив
-    checkArray.length = 0;
   }
 
   // диагонали слева внизу
-  for (let i = 1, checkArray = []; i < boardSize; i++) {
+  for (let i = 1, checkArray = [], cloneBoard = { ...newBoard }; i < boardSize; i++) { // клонирую доску, чтобы не повредить основной массив
     for (let j = 0, k = i; k < boardSize; j++, k++) {
-      checkArray[j] = newBoard[k][j];
+      checkArray[j] = cloneBoard[k][j];
+    }
+    if (checkArraySearch(checkArray, whoIsChecking)) return true; //проверяем полученный массив
+    checkArray.length = 0;
+  }
+
+  // обратные диагонали справа снизу
+  for (let i = 0, checkArray = [], cloneBoard = { ...newBoard }; i < boardSize; i++) { // клонирую доску, чтобы не повредить основной массив
+    for (let j = boardSize - 1, k = i, c = 0; k < boardSize; j--, k++, c++) {
+      checkArray[c] = cloneBoard[k][j];
     }
     if (checkArraySearch(checkArray, whoIsChecking)) return true; //проверяем полученный массив
     checkArray.length = 0;
@@ -101,20 +109,16 @@ function checkWin(whoIsChecking) {
 
 debugger;
 
-  // обратные диагонали справа снизу
-  for (let i = 0, checkArray = []; i < boardSize; i++) {
+  // обратные диагонали слева сверху
+  for (let i = 0, checkArray = [], cloneBoard = { ...newBoard }; i < boardSize - 1; i++) { // клонирую доску, чтобы не повредить основной массив
 
-    for (let j = boardSize - 1, k = i, c = 0; k > boardSize; j--, k++, c++) {
-      checkArray[c] = newBoard[k][j];
+    for (let j = boardSize - i - 2, k = 0; k < boardSize; j--, k++) {
+      checkArray[k] = cloneBoard[k][j];
     }
-    
+
     if (checkArraySearch(checkArray, whoIsChecking)) return true; //проверяем полученный массив
     checkArray.length = 0;
   }
-
-  // for (let i = 0, j = boardSize - 1, checkArray = []; i < boardSize; i++, j--) {
-  //   //checkArray = newBoard[i][j];
-  // }
 
   //возвращаем отрицательный результат
   return false;
