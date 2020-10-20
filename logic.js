@@ -66,6 +66,7 @@ function checkWin(whoIsChecking) {
   for (let i = 0, checkArray = []; i < boardSize; i++) {
     checkArray = newBoard[i]; //заполняем проверочный массив из горизонталей
     if (checkArraySearch(checkArray, whoIsChecking)) return true; //проверяем полученный массив
+    checkArray.length = 0;
   }
 
   //проверяем вертикали
@@ -74,18 +75,46 @@ function checkWin(whoIsChecking) {
       checkArray[j] = newBoard[j][i]; // заполняем проверочный массив данными из вертикалей
     }
     if (checkArraySearch(checkArray, whoIsChecking)) return true; //проверяем полученный массив
+    checkArray.length = 0;
   }
 
-  debugger;
+
   //проверяем диагонали
 
-  for (let i = 0, j = boardSize - 1, checkArray = []; i < boardSize; i++, j--) {
-    //checkArray = newBoard[i][i];
+  // диагонали справа сверху
+  for (let i = 0, checkArray = []; i < boardSize; i++) {
+    for (let j = 0, k = i; j < boardSize; j++, k++) {
+      checkArray[j] = newBoard[j][k];
+    }
+    if (checkArraySearch(checkArray, whoIsChecking)) return true; //проверяем полученный массив
+    checkArray.length = 0;
   }
 
-  for (let i = 0, j = boardSize - 1, checkArray = []; i < boardSize; i++, j--) {
-    //checkArray = newBoard[i][j];
+  // диагонали слева внизу
+  for (let i = 1, checkArray = []; i < boardSize; i++) {
+    for (let j = 0, k = i; k < boardSize; j++, k++) {
+      checkArray[j] = newBoard[k][j];
+    }
+    if (checkArraySearch(checkArray, whoIsChecking)) return true; //проверяем полученный массив
+    checkArray.length = 0;
   }
+
+debugger;
+
+  // обратные диагонали справа снизу
+  for (let i = 0, checkArray = []; i < boardSize; i++) {
+
+    for (let j = boardSize - 1, k = i, c = 0; k > boardSize; j--, k++, c++) {
+      checkArray[c] = newBoard[k][j];
+    }
+    
+    if (checkArraySearch(checkArray, whoIsChecking)) return true; //проверяем полученный массив
+    checkArray.length = 0;
+  }
+
+  // for (let i = 0, j = boardSize - 1, checkArray = []; i < boardSize; i++, j--) {
+  //   //checkArray = newBoard[i][j];
+  // }
 
   //возвращаем отрицательный результат
   return false;
@@ -108,7 +137,7 @@ function checkArraySearch(checkArray, whoIsChecking) {
         let checkSequenceEnd = checkSequenceStart + winSequence; // получаем конечный индекс проверяемой серии
         let checkSequence = checkArray.slice(checkSequenceStart, checkSequenceEnd); //вычленяем серию
       
-        if (checkSequence.length === winSequence && checkSequence.includes(checkSymbolActive) && !checkSequence.includes('') && !checkSequence.includes(checkSymbolOpponent)) { //проверяем серию на критерии выигрыша
+        if (checkSequence.length === winSequence && checkSequence.includes(checkSymbolActive) && !checkSequence.includes('') && !checkSequence.includes(checkSymbolOpponent) && !checkSequence.includes(undefined)) { //проверяем серию на критерии выигрыша
           return true;
         }
         checkSequenceStart = parseInt(checkArray.indexOf(checkSymbolActive, checkSequenceStart + 1), 10); // продолжаем поиск  в последовательности
