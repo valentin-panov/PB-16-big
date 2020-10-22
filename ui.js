@@ -28,6 +28,12 @@ function showWinner(winner) {
   modalEl.classList.remove('hidden');
 }
 
+function showNoWin() {
+  let header = modalEl.getElementsByTagName('h2')[0];
+  header.textContent = `🍾 Ничья! 🍾`;
+  modalEl.classList.remove('hidden');
+}
+
 function renderBoard(board) {
   const fields = [];
   for (let [i, row] of board.entries()) {

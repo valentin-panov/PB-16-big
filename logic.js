@@ -63,8 +63,7 @@ function click (clickRow, clickCol) {
   if (checkWin(activePlayer)) {
     showWinner(playerName[activePlayer]);
     return;
-  }
-  else { // или передаём ход 
+  } else { // или передаём ход 
     if (activePlayer == '0') {
       activePlayer = '1';
     }
@@ -72,6 +71,21 @@ function click (clickRow, clickCol) {
       activePlayer = '0';
     }
   }
+
+     //если все поля уже заняты, но никто не выиграл от выкидываем ничью
+   debugger;
+   let fullBoard = 0;
+   for (let i = 0; i < newBoard.length; i++) {
+      if (newBoard[i].indexOf("") != -1) {
+         fullBoard = 1;
+         break;
+      }
+   }
+   if (fullBoard == 0) {
+      showNoWin();
+   };
+
+
 }
 
 
@@ -90,7 +104,6 @@ function checkWin(whoIsChecking) {
     }
     if (checkArraySearch(checkArray, whoIsChecking)) return true; //проверяем полученный массив
   }
-
 
   //проверяем диагонали
 
@@ -120,15 +133,11 @@ function checkWin(whoIsChecking) {
     checkArray.length = 0;
   }
 
-debugger;
-
   // обратные диагонали слева сверху
   for (let i = 0, checkArray = [], cloneBoard = { ...newBoard }; i < boardSize - 1; i++) { // клонирую доску, чтобы не повредить основной массив
-
     for (let j = boardSize - i - 2, k = 0; k < boardSize; j--, k++) {
       checkArray[k] = cloneBoard[k][j];
     }
-
     if (checkArraySearch(checkArray, whoIsChecking)) return true; //проверяем полученный массив
     checkArray.length = 0;
   }
